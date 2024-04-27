@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
 
     private GameObject gameOverText;
 
+    public AudioClip gameOverSound;
+
+    private AudioSource gameOver;
+
     void Awake()//Starts before start (reset all values)
     {
         Time.timeScale = 1;
@@ -19,6 +23,7 @@ public class GameManager : MonoBehaviour
     {
         gameOverText = GameObject.Find("GameOverText");
         gameOverText.SetActive(false);
+        gameOver = GetComponent<AudioSource>();
     }
 
    
@@ -26,6 +31,7 @@ public class GameManager : MonoBehaviour
     {
         if(isGameOver) 
         {
+            gameOver.PlayOneShot(gameOverSound, 1.0f);
             EndGame();
         }
     }

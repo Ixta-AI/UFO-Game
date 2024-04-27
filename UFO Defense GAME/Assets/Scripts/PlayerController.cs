@@ -14,9 +14,17 @@ public class PlayerController : MonoBehaviour
 
     public GameManager gameManager;
 
+    private AudioSource playerAudio;
+    private AudioSource enemyAudio;
+
+    public AudioClip lazerSound;
+    public AudioClip explosion;
+
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        playerAudio = GetComponent<AudioSource>();
+        enemyAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -41,6 +49,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && gameManager.isGameOver == false)
         {// Create LazerBolt at the blaster transform position maintaining the objects rotation
             Instantiate(lazerBolt, blaster.transform.position, lazerBolt.transform.rotation);
+            
+            playerAudio.PlayOneShot(lazerSound, 1.0f); //play sound when space bar is hit
+            
         }
     }
 
@@ -48,5 +59,6 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Destroy(other.gameObject);
+        enemyAudio.PlayOneShot(explosion, 1f);
     }
 }

@@ -7,9 +7,15 @@ public class DetectCollision : MonoBehaviour
     public ScoreManager scoreManager; // Store reference to score manager
 
     public int scoreToGive;
+
+    private AudioSource enemyAudio;
+
+    public AudioClip explosion;
+
     void Start()
     {
         scoreManager = GameObject.Find("Score Manager").GetComponent<ScoreManager>(); // Find ScoreManager game object and reference ScoreManager script component
+        enemyAudio = GetComponent<AudioSource>();
     }
     void OnTriggerEnter(Collider other)// When hitting other game object 
     {
@@ -21,9 +27,10 @@ public class DetectCollision : MonoBehaviour
             Destroy(gameObject);//Destroy this object
             Destroy(other.gameObject);//Destroy hit object
         } 
-        else if (GameObject.FindWithTag("Enemy")) 
+        else if (other.gameObject.CompareTag("Enemy")) 
         {
-            Destroy(gameObject);
+            Destroy(other.gameObject);
+            enemyAudio.PlayOneShot(explosion);
         }
         
     }
